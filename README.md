@@ -63,7 +63,7 @@ Open Hive thrives on the contributions of its community. We are grateful to all 
 
 <hr>
 
-For those interested in contributing to Open Hive, please visit our [Contribution Guide](CONTRIBUTING.MD) for more information on how you can get involved.
+For those interested in contributing to Open Hive, please visit our [Contribution Guide](CONTRIBUTING.md) for more information on how you can get involved.
 
 ## Join Our Community
 
