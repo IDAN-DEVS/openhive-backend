@@ -45,6 +45,8 @@ npm-debug.log*
 # Yarn
 yarn-error.log*
 
-
-.env
+# Npm
 package-lock.json
+
+# Misc
+.DS_Store
