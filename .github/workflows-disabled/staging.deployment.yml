@@ -1,0 +1,53 @@
+name: Deploy To Staging Server
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Cache yarn dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/yarn
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Deploy to Staging Server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{secrets.SERVER_HOST}}
+          key: ${{secrets.SERVER_SSH_KEY}}
+          username: ${{secrets.SERVER_USERNAME}}
+          script: |
+            cd openhive-api-staging
+            git pull https://x-access-token:${{secrets.GITHUB_TOKEN}}@github.com/IDAN-DEVS/openhive-backend
+            export APP_NAME="${{secrets.APP_NAME}}"
+            export APP_PORT="${{secrets.APP_PORT}}"
+            export APP_ENV="${{secrets.APP_ENV}}"
+            export APP_ENCRYPTION_KEY="${{secrets.APP_ENCRYPTION_KEY}}"
+            export DB_URL="${{secrets.DB_URL}}"
+            export JWT_SECRET="${{secrets.JWT_SECRET}}"
+            export SMTP_HOST="${{secrets.SMTP_HOST}}"
+            export SMTP_PORT="${{secrets.SMTP_PORT}}"
+            export SMTP_EMAIL="${{secrets.SMTP_EMAIL}}"
+            export SMTP_USERNAME="${{secrets.SMTP_USERNAME}}"
+            export SMTP_PASSWORD="${{secrets.SMTP_PASSWORD}}"
+            export AWS_REGION="${{secrets.AWS_REGION}}"
+            export AWS_SECRET="${{secrets.AWS_SECRET}}"
+            export AWS_ACCESS_KEY="${{secrets.AWS_ACCESS_KEY}}"
+            export AWS_BUCKET_NAME="${{secrets.AWS_BUCKET_NAME}}"
+            export AWS_BUCKET_URL="${{secrets.AWS_BUCKET_URL}}"
+            yarn
+            yarn build
+            yarn start:prod-aws
+            echo "Deployment to Staging Server Completed"

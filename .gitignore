@@ -1,52 +1,40 @@
-# Dependency directories
-node_modules/
-
-# Logs and debugging files
-logs/
+# compiled output
+/dist
+/node_modules
+/rawcode.ts
+# Logs
+logs
 *.log
 npm-debug.log*
+pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-# Runtime data
-pids/
-*.pid
-*.seed
-*.pid.lock
-
-#lock files
-yarn.lock
-pnpm-lock.yaml
-
-# Environment files
-.env
-
-# IDE and editor-specific files
-.idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# Dependency files
-*.d.ts
-*.map
-
-# Build output
-build/
-dist/
-out/
-
-# Logs from npm
-npm-debug.log*
-
-# Yarn
-yarn-error.log*
-
-# Npm
-package-lock.json
-
-# Misc
+# OS
 .DS_Store
+
+# Tests
+/coverage
+/.nyc_output
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+dump.rdb
+.env
+access.log
+todo.txt
