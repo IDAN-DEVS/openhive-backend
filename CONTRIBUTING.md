@@ -64,6 +64,25 @@ git push origin your-branch-name
 
 4. **Respond to Feedback:** Once your pull request is submitted, the project maintainers may provide feedback. Be open to making further adjustments based on their suggestions.
 
+## Setting Up Cloudflare and MailerSend
+
+Open Hive uses Cloudflare for bucket storage and MailerSend for email sending. To contribute to the project, you'll need to set up your own Cloudflare and MailerSend accounts and obtain the necessary keys.
+
+### Cloudflare Setup
+
+1. Sign up for a Cloudflare account at [https://www.cloudflare.com/](https://www.cloudflare.com/).
+2. Create a new bucket for your Open Hive development environment.
+3. Obtain your Cloudflare API key and bucket name.
+4. Add your Cloudflare API key and bucket name to the `.env` file.<br>
+   cc: [read more on how to setup Cloudflare](https://developers.cloudflare.com/r2/get-started/)
+
+### MailerSend Setup
+
+1. Sign up for a MailerSend account at [https://www.mailersend.com/](https://www.mailersend.com/).
+2. Obtain your MailerSend API key.
+3. Add your MailerSend API key to the `.env` file. <br>
+   cc: [read more on how to setup Mailer send](https://www.mailersend.com/help/smtp-relay)
+
 ## Code of Conduct
 
 Open Hive is committed to fostering a welcoming and inclusive community. All contributors are expected to adhere to our [Code of Conduct](CODE_OF_CONDUCT.md), which promotes respect, kindness, and collaboration. By contributing to Open Hive, you agree to abide by its terms.
