@@ -1,6 +1,7 @@
 import { randomBytes, createCipheriv, createDecipheriv } from 'crypto';
 import * as bcrypt from 'bcryptjs';
 import { ENVIRONMENT } from '../configs/environment';
+import { BadRequestException } from '@nestjs/common';
 
 const encryptionKeyFromEnv = ENVIRONMENT.APP.ENCRYPTION_KEY;
 
@@ -16,6 +17,7 @@ export class BaseHelper {
   static async compareHashedData(data: string, hashed: string) {
     return await bcrypt.compare(data, hashed);
   }
+
   static generateOTP(): number {
     return Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
   }
@@ -63,4 +65,12 @@ export class BaseHelper {
 
     return `${folderName}/${randomString}-${timeStampInMilliSeconds}.${mimetype.split('/')[1]}`;
   }
+
+  static validateFileMimeType = (mimetype: string) => {
+    const validImageMimeTypes = ['image/png', 'image/jpg', 'image/jpeg'];
+
+    if (!validImageMimeTypes.includes(mimetype)) {
+      throw new BadRequestException('Invalid image');
+    }
+  };
 }

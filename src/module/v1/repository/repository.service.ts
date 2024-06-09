@@ -4,7 +4,7 @@ import { PaginationDto } from './dto/repository.dto';
 @Injectable()
 export class RepositoryService {
   async paginate(model: any, query?: PaginationDto, options?: any, populateFields?: any) {
-    const { page = 1, size = 10 } = query;
+    const { page = 1, size = 10, sort } = query;
 
     const skip = (page - 1) * size;
 
@@ -15,7 +15,8 @@ export class RepositoryService {
         })
         .skip(skip)
         .limit(size > 100 ? 100 : size)
-        .populate(populateFields),
+        .populate(populateFields)
+        .sort({ createdAt: sort === 'asc' ? 1 : -1 }),
       model.countDocuments({
         ...options,
       }),

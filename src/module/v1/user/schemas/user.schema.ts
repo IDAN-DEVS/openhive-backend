@@ -4,13 +4,10 @@ import { UserRoleEnum } from '../../../../common/enums/user.enum';
 
 export type UserDocument = User & Document;
 
-@Schema({ timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } })
+@Schema({ timestamps: true })
 export class User {
   @Prop({ required: true, unique: true })
   email: string;
-
-  @Prop({ required: false })
-  phone: string;
 
   @Prop({ default: false })
   emailVerified: boolean;
@@ -21,17 +18,8 @@ export class User {
   @Prop({ enum: UserRoleEnum, default: UserRoleEnum.USER })
   role: UserRoleEnum;
 
-  @Prop()
-  birthday: Date;
-
   @Prop({ default: null })
-  username: string;
-
-  @Prop({ default: null })
-  firstName: string;
-
-  @Prop({ default: null })
-  lastName: string;
+  name: string;
 
   @Prop({ default: null })
   bio: string;
@@ -41,6 +29,21 @@ export class User {
 
   @Prop({ default: 0 })
   averageRating: number;
+
+  @Prop({ default: 0 })
+  totalProjects: number;
+
+  @Prop({ default: 0 })
+  profileViews: number;
+
+  @Prop({ default: null })
+  facebookUrl: string;
+
+  @Prop({ default: null })
+  twitterUrl: string;
+
+  @Prop({ default: null })
+  githubUrl: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

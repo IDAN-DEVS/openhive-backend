@@ -1,36 +1,9 @@
 import { Transform } from 'class-transformer';
-import {
-  IsArray,
-  IsBoolean,
-  IsDateString,
-  IsEmail,
-  IsEnum,
-  IsMongoId,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  Length,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
-import { UserRoleEnum } from 'src/common/enums/user.enum';
+import { IsBoolean, IsEmail, IsOptional, IsString, IsUrl, MaxLength, MinLength } from 'class-validator';
 
 export class CreateUserDto {
-  @IsNotEmpty()
-  @IsString()
-  firstName: string;
-
-  @IsNotEmpty()
-  @IsString()
-  lastName: string;
-
   @IsEmail()
   email: string;
-
-  @IsOptional()
-  @IsString()
-  @Length(10, 11)
-  phone: string;
 
   @IsString()
   @MinLength(4)
@@ -40,20 +13,8 @@ export class CreateUserDto {
 
 export class UpdateUserDto {
   @IsOptional()
-  @IsDateString()
-  birthday?: string;
-
-  @IsOptional()
   @IsString()
-  username?: string;
-
-  @IsOptional()
-  @IsString()
-  firstName?: string;
-
-  @IsOptional()
-  @IsString()
-  lastName?: string;
+  name?: string;
 
   @IsOptional()
   @IsString()
@@ -66,17 +27,16 @@ export class UpdateUserDto {
   deleteProfilePhoto?: boolean;
 
   @IsOptional()
-  @IsMongoId()
-  school?: string;
+  @IsUrl()
+  facebookUrl?: string;
 
   @IsOptional()
-  @IsMongoId()
-  course?: string;
+  @IsUrl()
+  twitterUrl?: string;
 
   @IsOptional()
-  @IsArray()
-  @IsMongoId({ each: true })
-  preferredLanguages: string[];
+  @IsUrl()
+  githubUrl?: string;
 }
 
 export class GetUserProfileDto {}

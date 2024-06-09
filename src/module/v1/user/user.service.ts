@@ -8,7 +8,6 @@ import { Injectable } from '@nestjs/common/decorators';
 import { ConflictException, InternalServerErrorException, BadRequestException } from '@nestjs/common/exceptions';
 import { RepositoryService } from 'src/module/v1/repository/repository.service';
 import { PaginationDto } from 'src/module/v1/repository/dto/repository.dto';
-import { UserRoleEnum } from 'src/common/enums/user.enum';
 
 @Injectable()
 export class UserService {
@@ -69,27 +68,12 @@ export class UserService {
   }
 
   async updateUserProfile(userId: string, payload: UpdateUserDto, photo?: Express.Multer.File): Promise<UserDocument> {
-    const { username, deleteProfilePhoto } = payload;
-
-    if (username) {
-      const usernameUsed = await this.userModel.countDocuments({
-        username,
-        _id: { $ne: userId },
-      });
-
-      if (usernameUsed) {
-        throw new BadRequestException('Username already used, kindly select a new username');
-      }
-    }
+    const { deleteProfilePhoto } = payload;
 
     let photoUrl = null;
 
     if (photo) {
-      const validImageMimeTypes = ['image/png', 'image/jpg', 'image/jpeg'];
-
-      if (!validImageMimeTypes.includes(photo.mimetype)) {
-        throw new BadRequestException('Invalid image');
-      }
+      BaseHelper.validateFileMimeType(photo.mimetype);
 
       const uploadRes = await uploadSingleFile(photo, 'profile-photos');
       photoUrl = uploadRes?.url || null;

@@ -6,4 +6,7 @@ export class PaginationDto {
 
   @IsOptional()
   size?: number;
+
+  @IsOptional()
+  sort: 'asc' | 'desc' = 'desc';
 }
