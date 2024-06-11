@@ -9,6 +9,7 @@ import { SeederModule } from './module/v1/seeder/seeder.module';
 import { ProjectModule } from './module/v1/project/project.module';
 import { TechnologyModule } from './module/v1/technology/technology.module';
 import { RatingModule } from './module/v1/rating/rating.module';
+import { BookmarkModule } from './module/v1/bookmark/bookmark.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { RatingModule } from './module/v1/rating/rating.module';
     ProjectModule,
     TechnologyModule,
     RatingModule,
+    BookmarkModule,
   ],
   controllers: [],
   providers: [],
