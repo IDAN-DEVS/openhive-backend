@@ -30,7 +30,6 @@
     "@nestjs/mongoose": "^10.0.4",
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.0.0",
-    "agora-access-token": "^2.0.4",
     "axios": "^1.7.2",
     "bcryptjs": "^2.4.3",
     "cache-manager-redis-store": "^3.0.1",
