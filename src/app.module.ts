@@ -8,6 +8,7 @@ import { RepositoryModule } from './module/v1/repository/repository.module';
 import { SeederModule } from './module/v1/seeder/seeder.module';
 import { ProjectModule } from './module/v1/project/project.module';
 import { TechnologyModule } from './module/v1/technology/technology.module';
+import { RatingModule } from './module/v1/rating/rating.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { TechnologyModule } from './module/v1/technology/technology.module';
     SeederModule,
     ProjectModule,
     TechnologyModule,
+    RatingModule,
   ],
   controllers: [],
   providers: [],
