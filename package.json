@@ -19,6 +19,9 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "prepare": "husky"
   },
+  "engines": {
+    "node": "18"
+  },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.521.0",
     "@nestjs-modules/mailer": "^1.10.3",
