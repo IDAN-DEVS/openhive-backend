@@ -17,5 +17,6 @@ import { RepositoryModule } from 'src/module/v1/repository/repository.module';
   ],
   controllers: [ProjectController],
   providers: [ProjectService],
+  exports: [ProjectService],
 })
 export class ProjectModule {}

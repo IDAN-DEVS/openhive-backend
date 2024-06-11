@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { FilterQuery, Model, UpdateQuery } from 'mongoose';
 import { uploadSingleFile } from 'src/common/utils/aws.util';
 import { BaseHelper } from 'src/common/utils/helper.util';
 import { CreateProjectDto, UpdateProjectDto } from 'src/module/v1/project/dto/project.dto';
@@ -91,5 +91,9 @@ export class ProjectService {
     }
 
     return deletedProject;
+  }
+
+  async updateQuery(query: FilterQuery<ProjectDocument>, updatePayload: UpdateQuery<ProjectDocument>) {
+    return await this.projectModel.findOneAndUpdate(query, updatePayload, { new: true });
   }
 }
