@@ -29,6 +29,7 @@ export class UserService {
       delete result['_doc'].password;
       return result;
     } catch (e) {
+      console.error('Error while creating user', e);
       if (e.code === 11000) {
         throw new ConflictException(`${Object.keys(e.keyValue)} already exists`);
       } else {
