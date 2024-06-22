@@ -3,13 +3,25 @@ import { MailService } from './mail.service';
 import { MailController } from './mail.controller';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ENVIRONMENT } from 'src/common/configs/environment';
-import { join } from 'path';
+
 @Module({
   imports: [
+    // MailerModule.forRoot({
+    //   transport: {
+    //     host: ENVIRONMENT.MAILER.HOST,
+    //     port: +ENVIRONMENT.MAILER.PORT,
+    //     auth: {
+    //       user: ENVIRONMENT.MAILER.USERNAME,
+    //       pass: ENVIRONMENT.MAILER.PASSWORD,
+    //     },
+    //   },
+    //   defaults: {
+    //     from: `${ENVIRONMENT.MAILER.EMAIL}`,
+    //   },
+    // }),
     MailerModule.forRoot({
       transport: {
-        host: ENVIRONMENT.MAILER.HOST,
-        port: +ENVIRONMENT.MAILER.PORT,
+        service: 'gmail',
         auth: {
           user: ENVIRONMENT.MAILER.USERNAME,
           pass: ENVIRONMENT.MAILER.PASSWORD,
@@ -17,12 +29,6 @@ import { join } from 'path';
       },
       defaults: {
         from: `${ENVIRONMENT.MAILER.EMAIL}`,
-      },
-      template: {
-        dir: join(__dirname, 'templates'),
-        options: {
-          strict: true,
-        },
       },
     }),
   ],

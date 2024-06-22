@@ -5,6 +5,7 @@ import { LoggedInUserDecorator } from 'src/common/decorators/logged_in_user.deco
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UserDocument } from 'src/module/v1/user/schemas/user.schema';
 import { PaginationDto } from 'src/module/v1/repository/dto/repository.dto';
+import { Public } from 'src/common/decorators/public.decorator';
 
 @Controller('project')
 export class ProjectController {
@@ -20,6 +21,7 @@ export class ProjectController {
     return await this.projectService.create(payload, user, image);
   }
 
+  @Public()
   @Get('all')
   async getAllProjects(@Query() query: PaginationDto) {
     return await this.projectService.getAllProjects(query);
@@ -30,6 +32,7 @@ export class ProjectController {
     return await this.projectService.getMyProjects(user, query);
   }
 
+  @Public()
   @Get(':projectId')
   async getProjectById(@Query('projectId') id: string) {
     return await this.projectService.getProjectById(id);

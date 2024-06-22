@@ -125,6 +125,6 @@ export class RatingService {
   }
 
   async getRatingById(id: string) {
-    return await this.ratingModel.findById(id);
+    return await this.ratingModel.findById(id).populate('user project');
   }
 }

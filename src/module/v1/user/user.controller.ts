@@ -15,6 +15,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common/decorators';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Public } from 'src/common/decorators/public.decorator';
 
 @Controller('users')
 export class UserController {
@@ -39,6 +40,7 @@ export class UserController {
     return await this.userService.updateUserProfile(user._id, payload, photo);
   }
 
+  @Public()
   @Get(':userId')
   async getUserById(@Param('userId') id: string) {
     return await this.userService.getUserProfile(id);

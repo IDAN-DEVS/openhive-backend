@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { TechnologyService } from './technology.service';
 import { CreateTechnologyDto, UpdateTechnologyDto } from 'src/module/v1/technology/dto/technology.dto';
+import { Public } from 'src/common/decorators/public.decorator';
 
 // TODO : make creation and update for admin only
 @Controller('technology')
@@ -17,6 +18,7 @@ export class TechnologyController {
     return await this.technologyService.update(payload);
   }
 
+  @Public()
   @Get()
   async findAll() {
     return await this.technologyService.findAll();

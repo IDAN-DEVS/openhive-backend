@@ -33,7 +33,7 @@ export class ProjectService {
   }
 
   async getAllProjects(query: PaginationDto) {
-    return await this.repositoryService.paginate(this.projectModel, query);
+    return await this.repositoryService.paginate(this.projectModel, query, {}, 'technologies');
   }
 
   async getMyProjects(user: UserDocument, query: PaginationDto) {

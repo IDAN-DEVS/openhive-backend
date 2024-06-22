@@ -4,6 +4,7 @@ import { LoggedInUserDecorator } from 'src/common/decorators/logged_in_user.deco
 import { UserDocument } from 'src/module/v1/user/schemas/user.schema';
 import { CrateRatingDto, UpdateRatingDto } from 'src/module/v1/rating/dto/rating.dto';
 import { PaginationDto } from 'src/module/v1/repository/dto/repository.dto';
+import { Public } from 'src/common/decorators/public.decorator';
 
 @Controller('rating')
 export class RatingController {
@@ -19,11 +20,13 @@ export class RatingController {
     return await this.ratingService.updateRating(user, payload);
   }
 
+  @Public()
   @Get('project/:projectId')
   async getRatingByProject(@Param('projectId') projectId: string, @Query() query: PaginationDto) {
     return await this.ratingService.getRatingByProject(projectId, query);
   }
 
+  @Public()
   @Get(':id')
   async getRatingById(@Param('id') id: string) {
     return await this.ratingService.getRatingById(id);

@@ -34,7 +34,7 @@ export class BookmarkService {
   }
 
   async getUserBookmarks(user: UserDocument, query: PaginationDto) {
-    return await this.repositoryService.paginate(this.bookmarkModel, query, { user: user._id });
+    return await this.repositoryService.paginate(this.bookmarkModel, query, { user: user._id }, 'project user');
   }
 
   async delete(user: UserDocument, bookmarkId: string) {

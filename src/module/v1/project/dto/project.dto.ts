@@ -1,4 +1,5 @@
 import { PartialType } from '@nestjs/mapped-types';
+import { Type } from 'class-transformer';
 import { IsMongoId, IsNotEmpty, IsOptional, IsString, IsUrl } from 'class-validator';
 
 export class CreateProjectDto {
@@ -15,7 +16,7 @@ export class CreateProjectDto {
   projectUrl: string;
 
   @IsOptional()
-  @IsMongoId({ each: true })
+  @Type(() => String)
   technologies: string[];
 }
 
