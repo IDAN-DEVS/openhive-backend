@@ -2,12 +2,9 @@ import { Injectable, InternalServerErrorException, NotFoundException } from '@ne
 import { InjectModel } from '@nestjs/mongoose';
 import { OTP, OTPDocument } from './schemas/otp.schema';
 import { Model } from 'mongoose';
-import { BaseHelper } from 'src/common/utils/helper.util';
-import { CreateOtpDto, SendOtpDto, ValidateOtpDto, VerifyOtpDto } from './dto/otp.dto';
+import { CreateOtpDto, ValidateOtpDto } from './dto/otp.dto';
 import { MailService } from '../mail/mail.service';
-import { OtpTypeEnum } from 'src/common/enums/otp.enum';
-import { VerifyEmailTemplate } from '../mail/templates/verify-email.email';
-import { ForgotPasswordTemplate } from '../mail/templates/forgot-password.email';
+import { ISendOtp } from 'src/common/interfaces/otp.interface';
 
 @Injectable()
 export class OtpService {
@@ -32,10 +29,11 @@ export class OtpService {
     return this.otpModel.findOne({ code });
   }
 
+  // this only checks if the otp is valid, it won't delete it
   async validateOTP(payload: ValidateOtpDto) {
-    const { email, code, type } = payload;
+    const { email, code } = payload;
 
-    const otp = await this.otpModel.findOne({ email, code, type });
+    const otp = await this.otpModel.findOne({ email, code });
 
     if (!otp) {
       throw new NotFoundException('Invalid OTP code');
@@ -44,7 +42,7 @@ export class OtpService {
     return otp;
   }
 
-  async verifyOTP(payload: VerifyOtpDto) {
+  async verifyOTP(payload: ValidateOtpDto) {
     const otp = await this.validateOTP(payload);
 
     await this.deleteOTP(otp._id.toString());
@@ -52,34 +50,17 @@ export class OtpService {
     return true;
   }
 
-  async sendOTP(payload: SendOtpDto) {
-    const { email, type } = payload;
-
-    const code = BaseHelper.generateOTP();
-
-    let template: string;
-    let subject: string;
-
-    switch (type) {
-      case OtpTypeEnum.RESET_PASSWORD:
-        template = ForgotPasswordTemplate({ code });
-        subject = 'Reset Your Password';
-        break;
-      case OtpTypeEnum.VERIFY_EMAIL:
-        template = VerifyEmailTemplate({ code });
-        subject = 'Verify Email';
-        break;
-    }
+  async sendOTP(payload: ISendOtp) {
+    const { email, title, template, code } = payload;
 
     const otp = await this.createOTP({
       email,
       code,
-      type,
     });
 
     if (!otp) throw new InternalServerErrorException('Unable to send otp at the moment , try again later');
 
-    await this.mailService.sendEmail(email, subject, template);
+    await this.mailService.sendEmail(email, title, template);
   }
 
   async deleteOTP(id: string) {

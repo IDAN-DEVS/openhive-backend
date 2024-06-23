@@ -1,28 +1,13 @@
-import { IsEmail, IsEnum, IsNumber } from 'class-validator';
-import { OtpTypeEnum } from 'src/common/enums/otp.enum';
+import { IsEmail, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreateOtpDto {
-  @IsEnum(OtpTypeEnum)
-  type: OtpTypeEnum;
-
   @IsEmail()
+  @IsNotEmpty()
   email: string;
 
   @IsNumber()
+  @IsNotEmpty()
   code: number;
 }
 
-export class SendOtpDto {
-  @IsEnum(OtpTypeEnum)
-  type: OtpTypeEnum;
-
-  @IsEmail()
-  email: string;
-}
-
-export class VerifyOtpDto extends SendOtpDto {
-  @IsNumber()
-  code: number;
-}
-
-export class ValidateOtpDto extends VerifyOtpDto {}
+export class ValidateOtpDto extends CreateOtpDto {}

@@ -18,7 +18,8 @@ import {
 import { BaseHelper } from '../../../common/utils/helper.util';
 import { JwtService } from '@nestjs/jwt';
 import { OtpService } from '../otp/otp.service';
-import { OtpTypeEnum } from 'src/common/enums/otp.enum';
+import { VerifyEmailTemplate } from 'src/module/v1/mail/templates/verify-email.email';
+import { ForgotPasswordTemplate } from 'src/module/v1/mail/templates/forgot-password.email';
 
 @Injectable()
 export class AuthService {
@@ -32,10 +33,8 @@ export class AuthService {
   async register(payload: CreateUserDto) {
     const user = await this.userService.createUser(payload);
 
-    await this.otpService.sendOTP({
-      email: user.email,
-      type: OtpTypeEnum.VERIFY_EMAIL,
-    });
+    // send verification email
+    await this.sendVerificationMail({ email: user?.email });
 
     return user;
   }
@@ -83,7 +82,6 @@ export class AuthService {
     await this.otpService.verifyOTP({
       code,
       email,
-      type: OtpTypeEnum.VERIFY_EMAIL,
     });
 
     await this.userService.updateUserByEmail(email, {
@@ -91,21 +89,31 @@ export class AuthService {
     });
   }
 
+  // resend verification email
   async sendVerificationMail(payload: RequestVerifyEmailOtpDto) {
-    await this.userService.checkUserExistByEmail(payload.email);
+    const { email } = payload;
 
+    await this.userService.checkUserExistByEmail(email);
+
+    const code = BaseHelper.generateOTP();
     await this.otpService.sendOTP({
-      ...payload,
-      type: OtpTypeEnum.VERIFY_EMAIL,
+      email,
+      title: 'Verify Email',
+      template: VerifyEmailTemplate({ code }),
+      code,
     });
   }
 
   async sendPasswordResetEmail(payload: ForgotPasswordDto) {
-    await this.userService.checkUserExistByEmail(payload.email);
+    const { email } = payload;
+    await this.userService.checkUserExistByEmail(email);
 
+    const code = BaseHelper.generateOTP();
     await this.otpService.sendOTP({
-      ...payload,
-      type: OtpTypeEnum.RESET_PASSWORD,
+      email,
+      title: 'Reset Password',
+      code,
+      template: ForgotPasswordTemplate({ code }),
     });
   }
 
@@ -119,7 +127,6 @@ export class AuthService {
     await this.otpService.verifyOTP({
       email,
       code,
-      type: OtpTypeEnum.RESET_PASSWORD,
     });
 
     const hashedPassword = await BaseHelper.hashData(password);
